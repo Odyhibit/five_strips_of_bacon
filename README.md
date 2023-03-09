@@ -13,3 +13,5 @@ This works on the markdown used by discord. It does not work well on GitHubs mar
 <img width="735" alt="Screenshot 2023-03-09 at 1 10 26 AM" src="https://user-images.githubusercontent.com/1384102/223947538-f4e6f0fd-d53c-44da-beab-05fa3fc280c8.png">
 
 Decoding them might be a pain, but making them is easy.
+
+~~__F__~~​**i**​__V__​~~e~~​ **s**​**~~l~~**​**~~I~~**​**C**​e​**s**​ **~~o~~**​*__f__*​ **b**​~~A~~​~~__C__~~​*O*​n
