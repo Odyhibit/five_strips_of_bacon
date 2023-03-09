@@ -17,14 +17,16 @@ class MainWindow:
                 if letter.isalpha():
                     new_text += letter
             hidden_text.insert("1.0", new_text)
+            check_length(e)
 
         def check_length(e):
             cover_str = cover_text.get("1.0", "end-1c")
             hidden_str = hidden_text.get("1.0", "end-1c")
-            cover = 1 if str(e.char).isalnum() else 0
+            cover = 0
             for letter in cover_str:
                 if letter.isalnum():
                     cover += 1
+            print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
                 calc_button.config(state="normal")
             else:
@@ -32,7 +34,7 @@ class MainWindow:
 
 
         def calculate_cipher():
-            # BISCU
+            # BISCUT Bold Italic Strikethrough Capital Underline - Text
             secret_bin_str = bacon.get_bit_mask(hidden_text.get("1.0", "end -1c").lower(),
                                                 bacon.original_bacon_dictionary)
             cover_text_str = cover_text.get("1.0", "end -1c")
@@ -90,7 +92,7 @@ class MainWindow:
         clip_button.grid(column=1, row=8, padx=pad_x, pady=pad_y)
 
         hidden_text.bind("<FocusOut>", convert_hidden)
-        cover_text.bind("<Key>", check_length)
+        cover_text.bind("<KeyRelease>", check_length)
 
 
 if __name__ == '__main__':
