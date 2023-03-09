@@ -34,13 +34,14 @@ def get_bit_mask(hide_me, dictionary_choice):
             mask += dictionary_choice[char]
     return mask
 
+
 def process_char(letter: str, secret_bin_str: str) -> str:
     output, this_letter = "", ""
     prefix = ""
     if secret_bin_str[0] == "1":
-        prefix += "*"
-    if secret_bin_str[1] == "1":
         prefix += "**"
+    if secret_bin_str[1] == "1":
+        prefix += "*"
     if secret_bin_str[2] == "1":
         prefix += "~~"
     if secret_bin_str[4] == "1":
@@ -51,6 +52,6 @@ def process_char(letter: str, secret_bin_str: str) -> str:
         this_letter = str(letter)
     return output + prefix + this_letter + prefix[::-1] + "\u200B"
 
-#print(process_char("H", "10001"))
-#print("Hello World!")
-#print(get_bit_mask("Hello_World!".lower(), original_bacon_dictionary))
+# print(process_char("H", "10001"))
+# print("Hello World!")
+# print(get_bit_mask("Hello_World!".lower(), original_bacon_dictionary))
