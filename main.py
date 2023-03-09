@@ -26,7 +26,7 @@ class MainWindow:
             for letter in cover_str:
                 if letter.isalnum():
                     cover += 1
-            print("cover:", cover, "len(hidden):", len(hidden_str))
+            #print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
                 calc_button.config(state="normal")
             else:
