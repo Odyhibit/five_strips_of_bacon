@@ -71,9 +71,9 @@ class MainWindow:
         cover_text = Text(content, height=3)
         cipher_label = ttk.Label(content, text="Cipher Text")
         cipher_text = Text(content, height=6)
-        bin_label = ttk.Label(content, text="Binary of bacon - Bold,Italic,Strikethrough,Capital,Underline")
+        bin_label = ttk.Label(content, text="Bitmask- Bold,Italic,Strikethrough,Capital,Underline")
         bin_text = Text(content, height=6)
-        calc_button = Button(content, text="Cipher", command=calculate_cipher, state="disabled")
+        calc_button = Button(content, text="Calculate cipher", command=calculate_cipher, state="disabled")
         clip_button = Button(content, text="Copy cipher", command=copy_to_clipboard)
 
         pad_x = 10
