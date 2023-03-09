@@ -67,7 +67,7 @@ class MainWindow:
 
         hidden_label = ttk.Label(content, text="Hidden Text - Bacon cipher is alpha only")
         hidden_text = Text(content, height=3)
-        cover_label = ttk.Label(content, text="Cover Text - Will remove punctuation")
+        cover_label = ttk.Label(content, text="Cover Text - Will not encode punctuation")
         cover_text = Text(content, height=3)
         cipher_label = ttk.Label(content, text="Cipher Text")
         cipher_text = Text(content, height=6)
