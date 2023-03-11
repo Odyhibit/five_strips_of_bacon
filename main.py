@@ -18,8 +18,6 @@ class MainWindow:
                     new_text += letter
             hidden_text.insert("1.0", new_text)
             check_length(e)
-            print(pasteboard.get_contents(format='html'))
-
 
         def check_length(e):
             cover_str = cover_text.get("1.0", "end-1c")
@@ -64,11 +62,8 @@ class MainWindow:
 
         def copy_to_clipboard():
             field_value = cipher_text.get("1.0", 'end-1c')
-            content.clipboard_clear()
-            content.clipboard_append(field_value)
-
-
-        discord_var = IntVar()
+            root.clipboard_clear()
+            root.clipboard_append(field_value)
 
         hidden_label = ttk.Label(content, text="Hidden Text - Bacon cipher is alpha only")
         hidden_text = Text(content, height=3)
@@ -80,7 +75,6 @@ class MainWindow:
         bin_text = Text(content, height=6)
         calc_button = Button(content, text="Calculate cipher", command=calculate_cipher, state="disabled")
         clip_button = Button(content, text="Copy cipher", command=copy_to_clipboard)
-        discord_checkbox = ttk.Checkbutton(content, text="Discord format", state="normal", variable=discord_var)
 
         pad_x = 10
         pad_y = 5
@@ -94,14 +88,11 @@ class MainWindow:
         cipher_text.grid(column=0, row=5, columnspan=2, padx=pad_x, pady=pad_y)
         bin_label.grid(column=0, row=6, columnspan=2, padx=pad_x, pady=pad_y)
         bin_text.grid(column=0, row=7, columnspan=2, padx=pad_x, pady=pad_y)
-        calc_button.grid(column=0, row=8, padx=pad_x, pady=pad_y, sticky="E")
-        clip_button.grid(column=0, row=8, padx=pad_x, pady=pad_y, sticky="W")
-        discord_checkbox.grid(column=1, row=8, padx=pad_x, pady=pad_y)
+        calc_button.grid(column=0, row=8, padx=pad_x, pady=pad_y)
+        clip_button.grid(column=1, row=8, padx=pad_x, pady=pad_y)
 
         hidden_text.bind("<FocusOut>", convert_hidden)
         cover_text.bind("<KeyRelease>", check_length)
-        discord_var.set(True)
-
 
 
 if __name__ == '__main__':
