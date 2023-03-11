@@ -41,7 +41,7 @@ class MainWindow:
             output, this_letter = "", ""
             i, j = 0, 0
             while i < len(cover_text_str):
-                if cover_text_str[i].isalnum() and (j * 5) < len(secret_bin_str):
+                if cover_text_str[i].isalpha() and (j * 5) < len(secret_bin_str):
                     output += bacon.process_char(cover_text_str[i], secret_bin_str[j * 5: j * 5 + 5])
                     j += 1
                 else:
