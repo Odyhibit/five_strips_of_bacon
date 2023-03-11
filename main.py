@@ -24,7 +24,7 @@ class MainWindow:
             hidden_str = hidden_text.get("1.0", "end-1c")
             cover = 0
             for letter in cover_str:
-                if letter.isalnum():
+                if letter.isalpha():
                     cover += 1
             #print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
