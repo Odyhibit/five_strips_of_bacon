@@ -26,12 +26,11 @@ class MainWindow:
             for letter in cover_str:
                 if letter.isalpha():
                     cover += 1
-            #print("cover:", cover, "len(hidden):", len(hidden_str))
+            # print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
                 calc_button.config(state="normal")
             else:
                 calc_button.config(state="disabled")
-
 
         def calculate_cipher():
             # BISCUT Bold Italic Strikethrough Capital Underline - Text
@@ -50,7 +49,7 @@ class MainWindow:
             binary_version = ""
             for i, character in enumerate(secret_bin_str):
                 binary_version += character
-                if (i+1) % 5 == 0:
+                if (i + 1) % 5 == 0:
                     binary_version += " "
 
             bin_text.delete("1.0", "end")
@@ -58,7 +57,6 @@ class MainWindow:
 
             cipher_text.delete("1.0", "end")
             cipher_text.insert("1.0", output)
-
 
         def copy_to_clipboard():
             field_value = cipher_text.get("1.0", 'end-1c')
@@ -97,5 +95,7 @@ class MainWindow:
 
 if __name__ == '__main__':
     root = Tk()
+    icon_bacon = PhotoImage(file="bacon-5.png")
+    root.iconphoto(False, icon_bacon)
     MainWindow(root)
     root.mainloop()
