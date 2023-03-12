@@ -18,7 +18,6 @@ class MainWindow:
                     new_text += letter
             hidden_text.insert("1.0", new_text)
             check_length(e)
-            print(pasteboard.get_contents(format='html'))
 
 
         def check_length(e):
