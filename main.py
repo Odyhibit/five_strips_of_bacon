@@ -18,7 +18,6 @@ class MainWindow:
                     new_text += letter
             hidden_text.insert("1.0", new_text)
             check_length(e)
-            print(pasteboard.get_contents(format='html'))
 
 
         def check_length(e):
@@ -26,7 +25,7 @@ class MainWindow:
             hidden_str = hidden_text.get("1.0", "end-1c")
             cover = 0
             for letter in cover_str:
-                if letter.isalnum():
+                if letter.isalpha():
                     cover += 1
             #print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
@@ -43,7 +42,7 @@ class MainWindow:
             output, this_letter = "", ""
             i, j = 0, 0
             while i < len(cover_text_str):
-                if cover_text_str[i].isalnum() and (j * 5) < len(secret_bin_str):
+                if cover_text_str[i].isalpha() and (j * 5) < len(secret_bin_str):
                     output += bacon.process_char(cover_text_str[i], secret_bin_str[j * 5: j * 5 + 5])
                     j += 1
                 else:
