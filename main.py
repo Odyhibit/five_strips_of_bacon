@@ -19,7 +19,6 @@ class MainWindow:
             hidden_text.insert("1.0", new_text)
             check_length(e)
 
-
         def check_length(e):
             cover_str = cover_text.get("1.0", "end-1c")
             hidden_str = hidden_text.get("1.0", "end-1c")
@@ -27,12 +26,10 @@ class MainWindow:
             for letter in cover_str:
                 if letter.isalpha():
                     cover += 1
-            #print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
                 calc_button.config(state="normal")
             else:
                 calc_button.config(state="disabled")
-
 
         def calculate_cipher():
             # BISCUT Bold Italic Strikethrough Capital Underline - Text
@@ -43,7 +40,7 @@ class MainWindow:
             i, j = 0, 0
             while i < len(cover_text_str):
                 if cover_text_str[i].isalpha() and (j * 5) < len(secret_bin_str):
-                    output += bacon.process_char(cover_text_str[i], secret_bin_str[j * 5: j * 5 + 5])
+                    output += bacon.add_bacon(cover_text_str[i], secret_bin_str[j * 5: j * 5 + 5])
                     j += 1
                 else:
                     output += cover_text_str[i]
@@ -51,7 +48,7 @@ class MainWindow:
             binary_version = ""
             for i, character in enumerate(secret_bin_str):
                 binary_version += character
-                if (i+1) % 5 == 0:
+                if (i + 1) % 5 == 0:
                     binary_version += " "
 
             bin_text.delete("1.0", "end")
@@ -60,12 +57,10 @@ class MainWindow:
             cipher_text.delete("1.0", "end")
             cipher_text.insert("1.0", output)
 
-
         def copy_to_clipboard():
             field_value = cipher_text.get("1.0", 'end-1c')
             content.clipboard_clear()
             content.clipboard_append(field_value)
-
 
         discord_var = IntVar()
 
@@ -100,7 +95,6 @@ class MainWindow:
         hidden_text.bind("<FocusOut>", convert_hidden)
         cover_text.bind("<KeyRelease>", check_length)
         discord_var.set(True)
-
 
 
 if __name__ == '__main__':

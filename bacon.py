@@ -27,7 +27,7 @@ original_bacon_dictionary = {"a": "00000",
 
 
 # create a bit_mask for the hidden_text
-def get_bit_mask(hide_me, dictionary_choice):
+def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
     mask = ""
     for char in hide_me:
         if char in dictionary_choice:
@@ -35,23 +35,19 @@ def get_bit_mask(hide_me, dictionary_choice):
     return mask
 
 
-def process_char(letter: str, secret_bin_str: str) -> str:
-    output, this_letter = "", ""
+def add_bacon(letter: str, bit_mask: str) -> str:
+    zero_width_space = "\u200B"
     prefix = ""
-    if secret_bin_str[0] == "1":
+    if bit_mask[0] == "1":
         prefix += "**"
-    if secret_bin_str[1] == "1":
+    if bit_mask[1] == "1":
         prefix += "*"
-    if secret_bin_str[2] == "1":
+    if bit_mask[2] == "1":
         prefix += "~~"
-    if secret_bin_str[4] == "1":
+    if bit_mask[4] == "1":
         prefix += "__"
-    if secret_bin_str[3] == "1":
+    if bit_mask[3] == "1":
         this_letter = str(letter).upper()
     else:
         this_letter = str(letter)
-    return output + prefix + this_letter + prefix[::-1] + "\u200B"
-
-# print(process_char("H", "10001"))
-# print("Hello World!")
-# print(get_bit_mask("Hello_World!".lower(), original_bacon_dictionary))
+    return prefix + this_letter + prefix[::-1] + zero_width_space
