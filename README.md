@@ -30,4 +30,4 @@ GitHub example encoding
 * ***Bold italic*** text
 * ~~**strike Bold**~~ text
 * *~~italic strike~~* text
-* <ins>~~underline~~</ins> text
+* <ins>~~underline strikethrough~~</ins> text
