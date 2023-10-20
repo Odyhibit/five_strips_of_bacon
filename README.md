@@ -15,7 +15,7 @@ This works on the markdown used by discord. I included a zero width space charac
 
 GitHubs markdown uses html for underline. Simply select the output format you wish, either Discord style markdown, or GitHub style markdown.
 
-<img width="735" alt="Screenshot 2023-03-09 at 1 10 26 AM" src="https://user-images.githubusercontent.com/1384102/223947538-f4e6f0fd-d53c-44da-beab-05fa3fc280c8.png">
+<img width="720" alt="Screenshot 2023-10-19 at 10 50 08 PM" src="https://github.com/Odyhibit/five_slices_of_bacon/assets/1384102/a128fe9b-ab46-442c-9773-c3c8db3f428b">
 
 Decoding them might be a pain, but making them is easy.
 
