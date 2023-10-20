@@ -5,7 +5,7 @@ no.
 
 Bacon's cipher was designed to hide text inside other text, or objects in photos.
 
-Each character in the hidden text requires 5 bits of information. Maybe weather a character is bold, or not. Maybe wheather a line of people in a photo have their head turned to the side or not.
+Each character in the hidden text requires 5 bits of information. For example it could be if a character is bold, or not. Maybe wheather people in a photo have their head turned to the side or not.
 So why not "hide" 5 bits of information in a single character? Who would even notice?
 Turns out everyone. This is an obnoxious combination. 
 This works on the markdown used by discord. I included a zero width space character, because adjacent similar text modifiers would break stuff.
