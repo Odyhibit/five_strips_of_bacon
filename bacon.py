@@ -25,6 +25,11 @@ original_bacon_dictionary = {"a": "00000",
                              "y": "10110",
                              "z": "10111"}
 
+discord_prefix = ["**", "*", "~~", "", "__"]
+discord_suffix = ["**", "*", "~~", "", "__"]
+markdown_prefix = ["**", "*", "~~", "", "<ins>"]
+markdown_suffix = ["**", "*", "~~", "", "</ins>"]
+
 
 # create a bit_mask for the hidden_text
 def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
@@ -35,42 +40,23 @@ def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
     return mask
 
 
-def add_bacon(letter: str, bit_mask: str) -> str:
+def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
     zero_width_space = "\u200B"
-    prefix = ""
-    if bit_mask[0] == "1":
-        prefix += "**"
-    if bit_mask[1] == "1":
-        prefix += "*"
-    if bit_mask[2] == "1":
-        prefix += "~~"
-    if bit_mask[4] == "1":
-        prefix += "__"
+    prefix, suffix = "", ""
+    prefix_list, suffix_list = [], []
+    if output_format == "Discord":
+        prefix_list = discord_prefix
+        suffix_list = discord_suffix
+    if output_format == "Markdown":
+        prefix_list = markdown_prefix
+        suffix_list = markdown_suffix
+    for i in range(5):
+        if bit_mask[i] == "1":
+            prefix = prefix + prefix_list[i]
+            suffix = suffix_list[i] + suffix
     if bit_mask[3] == "1":
         this_letter = str(letter).upper()
     else:
         this_letter = str(letter)
     return prefix + this_letter + prefix[::-1] + zero_width_space
 
-
-def add_bacon_markdown(letter: str, bit_mask: str) -> str:
-    zero_width_space = "\u200B"
-    prefix = ""
-    suffix = ""
-    if bit_mask[0] == "1":
-        prefix += "**"
-        suffix = "**" + suffix
-    if bit_mask[1] == "1":
-        prefix += "*"
-        suffix = "*" + suffix
-    if bit_mask[2] == "1":
-        prefix += "~~"
-        suffix = "~~" + suffix
-    if bit_mask[4] == "1":
-        prefix += "<ins>"
-        suffix = "</ins>" + suffix
-    if bit_mask[3] == "1":
-        this_letter = str(letter).upper()
-    else:
-        this_letter = str(letter)
-    return prefix + this_letter + suffix + zero_width_space
