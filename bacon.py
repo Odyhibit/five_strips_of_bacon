@@ -27,8 +27,8 @@ original_bacon_dictionary = {"a": "00000",
 
 discord_prefix = ["**", "*", "~~", "", "__"]
 discord_suffix = ["**", "*", "~~", "", "__"]
-markdown_prefix = ["**", "*", "~~", "", "<ins>"]
-markdown_suffix = ["**", "*", "~~", "", "</ins>"]
+github_prefix = ["**", "*", "~~", "", "<ins>"]
+github_suffix = ["**", "*", "~~", "", "</ins>"]
 
 
 # create a bit_mask for the hidden_text
@@ -47,9 +47,9 @@ def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
     if output_format == "Discord":
         prefix_list = discord_prefix
         suffix_list = discord_suffix
-    if output_format == "Markdown":
-        prefix_list = markdown_prefix
-        suffix_list = markdown_suffix
+    if output_format == "GitHub":
+        prefix_list = github_prefix
+        suffix_list = github_suffix
     for i in range(5):
         if bit_mask[i] == "1":
             prefix = prefix + prefix_list[i]
@@ -57,6 +57,6 @@ def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
     if bit_mask[3] == "1":
         this_letter = str(letter).upper()
     else:
-        this_letter = str(letter)
-    return prefix + this_letter + prefix[::-1] + zero_width_space
+        this_letter = str(letter).lower()
+    return prefix + this_letter + suffix + zero_width_space
 

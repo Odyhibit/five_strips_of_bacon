@@ -63,8 +63,7 @@ class MainWindow:
             content.clipboard_clear()
             content.clipboard_append(field_value)
 
-        # discord_var = IntVar()
-        # markdown_var = IntVar()
+
         output_type = StringVar(root, "Discord")
 
         hidden_label = ttk.Label(content, text="Hidden Text - Bacon cipher is alpha only")
@@ -77,10 +76,8 @@ class MainWindow:
         bin_text = Text(content, height=6)
         calc_button = Button(content, text="Calculate cipher", command=calculate_cipher, state="disabled")
         clip_button = Button(content, text="Copy cipher", command=copy_to_clipboard)
-        Radiobutton(content, text="Discord", variable=output_type, value="Discord").grid(column=2, row=8, padx=5,
-                                                                                         pady=5)
-        Radiobutton(content, text="Markdown", variable=output_type, value="Markdown").grid(column=3, row=8, padx=5,
-                                                                                           pady=5)
+        Radiobutton(content, text="Discord", variable=output_type, value="Discord").grid(column=2, row=8, padx=5)
+        Radiobutton(content, text="GitHub", variable=output_type, value="GitHub").grid(column=3, row=8, padx=5)
 
         pad_x = 10
         pad_y = 5
@@ -96,10 +93,7 @@ class MainWindow:
         bin_text.grid(column=0, row=7, columnspan=4, padx=pad_x, pady=pad_y)
         calc_button.grid(column=0, row=8, padx=pad_x, pady=pad_y, sticky="E")
         clip_button.grid(column=1, row=8, padx=pad_x, pady=pad_y, sticky="W")
-        # discord_checkbox.grid(column=2, row=8, padx=5, pady=pad_y)
-        # markdown_checkbox.grid(column=3, row=8, padx=5, pady=pad_y)
-        # discord_radio.grid(column=2, row=8, padx=5, pady=pad_y)
-        # markdown_radio.grid(column=3, row=8, padx=5, pady=pad_y)
+
 
         hidden_text.bind("<FocusOut>", convert_hidden)
         cover_text.bind("<KeyRelease>", check_length)
