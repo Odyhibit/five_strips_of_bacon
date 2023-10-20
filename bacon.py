@@ -51,3 +51,26 @@ def add_bacon(letter: str, bit_mask: str) -> str:
     else:
         this_letter = str(letter)
     return prefix + this_letter + prefix[::-1] + zero_width_space
+
+
+def add_bacon_markdown(letter: str, bit_mask: str) -> str:
+    zero_width_space = "\u200B"
+    prefix = ""
+    suffix = ""
+    if bit_mask[0] == "1":
+        prefix += "**"
+        suffix = "**" + suffix
+    if bit_mask[1] == "1":
+        prefix += "*"
+        suffix = "*" + suffix
+    if bit_mask[2] == "1":
+        prefix += "~~"
+        suffix = "~~" + suffix
+    if bit_mask[4] == "1":
+        prefix += "<ins>"
+        suffix = "</ins>" + suffix
+    if bit_mask[3] == "1":
+        this_letter = str(letter).upper()
+    else:
+        this_letter = str(letter)
+    return prefix + this_letter + suffix + zero_width_space
