@@ -35,8 +35,10 @@ def grab_clipboard() -> []:
 
 def process_char(letter: str) -> str:
     output = [0, 0, 0, 0, 0]
+    letter = letter.replace("/", "")
     prefix_size = len(letter) // 2
     prefix = letter[:prefix_size]
+    #  print(prefix, " ", letter)
     cover_character = letter[prefix_size:prefix_size + 1]
     if "***" in prefix:
         output[0] = 1
@@ -47,7 +49,7 @@ def process_char(letter: str) -> str:
         output[1] = 1
     if "~~" in prefix:
         output[2] = 1
-    if "__" in prefix:
+    if "__" in prefix or "<ins>" in prefix:
         output[4] = 1
     if cover_character.isupper():
         output[3] = 1
@@ -61,17 +63,33 @@ def process_char(letter: str) -> str:
     return return_letter
 
 
-def decode_cover_text(cover_text: str) -> str:
+def process_word(cover_text: str) -> str:
+    output = ""
     if "\u200b" in cover_text:
         clipboard = cover_text.split("\u200B")
     else:
         clipboard = cover_text.split()
 
-    output = ""
     for letter in clipboard:
         secret_letter = process_char(letter)
         output += secret_letter
     return output
+
+
+def decode_cover_text(cover_text: str) -> str:
+    word_joiner = "\u2060"
+    no_break_space = "\ufeff"
+    output = ""
+
+    if no_break_space in cover_text:
+        cover_text = cover_text[:cover_text.find(no_break_space)]
+    word_list = cover_text.split(word_joiner)
+
+    for word in word_list:
+        output += process_word(word) + " "
+
+    return output
+
 
 
 

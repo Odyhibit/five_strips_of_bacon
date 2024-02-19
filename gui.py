@@ -5,60 +5,6 @@ from PIL import ImageTk
 import bacon
 import decode_five_strips_of_bacon
 
-original_bacon_dictionary = {"a": "00000",
-                             "b": "00001",
-                             "c": "00010",
-                             "d": "00011",
-                             "e": "00100",
-                             "f": "00101",
-                             "g": "00110",
-                             "h": "00111",
-                             "i": "01000",
-                             "j": "01000",
-                             "k": "01001",
-                             "l": "01010",
-                             "m": "01011",
-                             "n": "01100",
-                             "o": "01101",
-                             "p": "01110",
-                             "q": "01111",
-                             "r": "10000",
-                             "s": "10001",
-                             "t": "10010",
-                             "u": "10011",
-                             "v": "10011",
-                             "w": "10100",
-                             "x": "10101",
-                             "y": "10110",
-                             "z": "10111"}
-
-
-# create a bit_mask for the hidden_text
-def get_bit_mask(hide_me, dictionary_choice):
-    mask = ""
-    for char in hide_me:
-        if char in dictionary_choice:
-            mask += dictionary_choice[char]
-    return mask
-
-
-def process_char(letter: str, secret_bin_str: str) -> str:
-    output, this_letter = "", ""
-    prefix = ""
-    if secret_bin_str[0] == "1":
-        prefix += "**"
-    if secret_bin_str[1] == "1":
-        prefix += "*"
-    if secret_bin_str[2] == "1":
-        prefix += "~~"
-    if secret_bin_str[4] == "1":
-        prefix += "__"
-    if secret_bin_str[3] == "1":
-        this_letter = str(letter).upper()
-    else:
-        this_letter = str(letter)
-    return output + prefix + this_letter + prefix[::-1] + "\u200B"
-
 
 class MainWindow:
 
@@ -78,12 +24,14 @@ class MainWindow:
             for letter in temp:
                 if letter.isalpha():
                     new_text += letter
+                if letter == " ":
+                    new_text += " "
             hidden_text.insert("1.0", new_text)
             check_length(e)
 
         def check_length(e):
             cover_str = cover_text.get("1.0", "end-1c")
-            hidden_str = hidden_text.get("1.0", "end-1c")
+            hidden_str = hidden_text.get("1.0", "end-1c").replace(" ", "")
             cover = 0
             for letter in cover_str:
                 if letter.isalpha():
@@ -96,18 +44,36 @@ class MainWindow:
 
         def calculate_cipher():
             # BISCUT Bold Italic Strikethrough Capital Underline - Text
+            word_joiner = "\u2060"
+            no_break_space = "\ufeff"
+            hidden_str = hidden_text.get("1.0", "end-1c")
             secret_bin_str = bacon.get_bit_mask(hidden_text.get("1.0", "end -1c").lower(),
                                                 bacon.original_bacon_dictionary)
             cover_text_str = cover_text.get("1.0", "end -1c")
+            output_format = output_type.get()
             output, this_letter = "", ""
-            i, j = 0, 0
-            while i < len(cover_text_str):
-                if cover_text_str[i].isalpha() and (j * 5) < len(secret_bin_str):
-                    output += bacon.process_char(cover_text_str[i], secret_bin_str[j * 5: j * 5 + 5])
-                    j += 1
+            cover_index, hidden_index, bin_str_index = 0, 0, 0
+            need_to_end_code = True
+            while cover_index < len(cover_text_str):
+                if hidden_index < len(hidden_str):
+                    if cover_text_str[cover_index].isalpha():
+                        if hidden_str[hidden_index] == " ":
+                            output += word_joiner
+                            hidden_index += 1
+                            continue
+                        else:
+                            output += bacon.add_bacon(cover_text_str[cover_index], secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
+                                                      output_format)
+                            hidden_index += 1
+                            bin_str_index += 1
+                    if cover_text_str[cover_index] == " ":
+                        output += " "
                 else:
-                    output += cover_text_str[i]
-                i += 1
+                    if need_to_end_code:
+                        output += no_break_space
+                        need_to_end_code = False
+                    output += cover_text_str[cover_index]
+                cover_index += 1
 
             cipher_text.delete("1.0", "end")
             cipher_text.insert("1.0", output)
@@ -115,11 +81,13 @@ class MainWindow:
         def decode_cipher():
             covered_text = ciphered_text.get("1.0", "end -1c")
             plain_text = decode_five_strips_of_bacon.decode_cover_text(covered_text)
-            plain_text_text.insert("0.0", plain_text)
+            plain_text_text.delete("1.0", "end")
+            plain_text_text.insert("1.0", plain_text)
 
         def paste_cipher():
             covered_text = root.clipboard_get()
-            ciphered_text.insert("0.0", covered_text)
+            ciphered_text.delete("1.0", "end")
+            ciphered_text.insert("1.0", covered_text)
 
         def copy_to_clipboard():
             field_value = cipher_text.get("1.0", 'end-1c')
@@ -127,9 +95,11 @@ class MainWindow:
             root.clipboard_append(field_value)
 
         #  ENCODING
-        hidden_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Hidden Text - Bacon cipher is alpha only")
+        output_type = StringVar(root, "Discord")
+
+        hidden_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Hidden Text - alphabet, and spaces only")
         hidden_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
-        cover_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cover Text - Will not encode punctuation")
+        cover_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cover Text")
         cover_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
         cipher_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cipher Text")
         cipher_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=60, width=400)
@@ -148,11 +118,19 @@ class MainWindow:
         cipher_text.grid(column=0, row=6, columnspan=2, padx=pad_x, pady=pad_y)
         calc_button.grid(column=0, row=7, padx=pad_x, pady=pad_y)
         clip_button.grid(column=1, row=7, padx=pad_x, pady=pad_y)
+        CTkRadioButton(tabcontrol.tab("Encode"), text="Discord", variable=output_type, value="Discord").grid(column=0,
+                                                                                                             row=8,
+                                                                                                             columnspan=2,
+                                                                                                             padx=5)
+        CTkRadioButton(tabcontrol.tab("Encode"), text="GitHub", variable=output_type, value="GitHub").grid(column=0,
+                                                                                                           row=9,
+                                                                                                           columnspan=2,
+                                                                                                           padx=5)
 
         hidden_text.bind("<FocusOut>", convert_hidden)
         cover_text.bind("<KeyRelease>", check_length)
 
-        #DECODING
+        # DECODING
         ciphered_label = CTkLabel(master=tabcontrol.tab("Decode"), text="paste ciphered text")
         ciphered_text = CTkTextbox(master=tabcontrol.tab("Decode"), height=60, width=400)
         plain_text_label = CTkLabel(master=tabcontrol.tab("Decode"), text="recovered message")
@@ -173,7 +151,5 @@ if __name__ == '__main__':
     root = CTk()
     tabcontrol = customtkinter.CTkTabview(root)
     tabcontrol.pack(expand=True)
-    # icon_bacon = PhotoImage(file="bacon-5.png")
-    # root.iconphoto(False, icon_bacon)
     MainWindow(root)
     root.mainloop()
