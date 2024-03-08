@@ -9,7 +9,7 @@ import decode_five_strips_of_bacon
 class MainWindow:
 
     def __init__(self, root):
-        icon_path = ImageTk.PhotoImage(file="bacon-5.png")
+        icon_path = ImageTk.PhotoImage(file="bacon_five.png")
         root.wm_iconbitmap()
         root.iconphoto(False, icon_path)
         root.title("Five Strips of Bacon")
@@ -26,6 +26,8 @@ class MainWindow:
                     new_text += letter
                 if letter == " ":
                     new_text += " "
+            new_text = new_text.replace("J", "I")
+            new_text = new_text.replace("V", "U")
             hidden_text.insert("1.0", new_text)
             check_length(e)
 
@@ -97,7 +99,7 @@ class MainWindow:
         #  ENCODING
         output_type = StringVar(root, "Discord")
 
-        hidden_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Hidden Text - alphabet, and spaces only")
+        hidden_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Hidden Text - alphabet, and spaces only (I/J and U/V are combined)")
         hidden_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
         cover_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cover Text")
         cover_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
