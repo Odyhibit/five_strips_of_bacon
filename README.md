@@ -1,4 +1,4 @@
-# Five slices of bacon
+# Five strips of bacon
 ## Installation
 
 ```
