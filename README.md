@@ -1,9 +1,19 @@
 # Five strips of bacon
 ## Installation
 
+To install you can use pip.( or pip3 depending on your system )
+
 ```
 pip install five-strips-of-bacon
 ```
+
+To start the application just run it from the command line.
+
+```
+five-strips-of-bacon
+```
+
+
 ## About
 
 Is it steganography if it's obvious?
