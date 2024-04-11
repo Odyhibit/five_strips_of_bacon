@@ -1,15 +1,17 @@
-import customtkinter
 from customtkinter import *
 from PIL import ImageTk
 
-import bacon
-import decode_five_strips_of_bacon
+import src.bacon as bacon
+import src.decode_five_strips_of_bacon as decode_bacon
 
 
 class MainWindow:
 
     def __init__(self, root):
-        icon_path = ImageTk.PhotoImage(file="bacon_five.png")
+
+        tabcontrol = CTkTabview(root)
+        tabcontrol.pack(expand=True)
+        icon_path = ImageTk.PhotoImage(file="five-strips-of-bacon/src/resources/bacon_five.png")
         root.wm_iconbitmap()
         root.iconphoto(False, icon_path)
         root.title("Five Strips of Bacon")
@@ -40,9 +42,9 @@ class MainWindow:
                     cover += 1
             # print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
-                calc_button.configure(state="normal")
+                calc_button.configure(state="normal", text="Calculate cipher")
             else:
-                calc_button.configure(state="disabled")
+                calc_button.configure(state="disabled", text="Need more cover text")
 
         def calculate_cipher():
             # BISCUT Bold Italic Strikethrough Capital Underline - Text
@@ -64,7 +66,8 @@ class MainWindow:
                             hidden_index += 1
                             continue
                         else:
-                            output += bacon.add_bacon(cover_text_str[cover_index], secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
+                            output += bacon.add_bacon(cover_text_str[cover_index],
+                                                      secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
                                                       output_format)
                             hidden_index += 1
                             bin_str_index += 1
@@ -82,7 +85,7 @@ class MainWindow:
 
         def decode_cipher():
             covered_text = ciphered_text.get("1.0", "end -1c")
-            plain_text = decode_five_strips_of_bacon.decode_cover_text(covered_text)
+            plain_text = decode_bacon.decode_cover_text(covered_text)
             plain_text_text.delete("1.0", "end")
             plain_text_text.insert("1.0", plain_text)
 
@@ -99,7 +102,8 @@ class MainWindow:
         #  ENCODING
         output_type = StringVar(root, "Discord")
 
-        hidden_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Hidden Text - alphabet, and spaces only (I/J and U/V are combined)")
+        hidden_label = CTkLabel(master=tabcontrol.tab("Encode"),
+                                text="Hidden Text - alphabet, and spaces only (I/J and U/V are combined)")
         hidden_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
         cover_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cover Text")
         cover_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
@@ -149,9 +153,11 @@ class MainWindow:
         paste_button.grid(column=1, row=4, padx=pad_x, pady=pad_y)
 
 
-if __name__ == '__main__':
+def main():
     root = CTk()
-    tabcontrol = customtkinter.CTkTabview(root)
-    tabcontrol.pack(expand=True)
     MainWindow(root)
     root.mainloop()
+
+
+if __name__ == '__main__':
+    main()

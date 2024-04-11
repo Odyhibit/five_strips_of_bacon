@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "five-strips-of-bacon"
+version = "0.1.4"
+description = "Encode/Decode messages using five simultaneous bacon ciphers."
+authors = ["Odyhibit <josh.2990@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "src/main.py"},
+    { include = "src/bacon.py"},
+    { include = "src/decode_five_strips_of_bacon.py"},
+    { include = "bacon_five.png", from="src/resources"},
+]
+
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+customtkinter = "^5.2.2"
+pillow = "^10.3.0"
+
+[tool.poetry.scripts]
+five-strips-of-bacon = "src.main:main"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
