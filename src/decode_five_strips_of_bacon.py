@@ -91,8 +91,6 @@ def decode_cover_text(cover_text: str) -> str:
     return output.upper()
 
 
-
-
 def main():
     cover_text = grab_clipboard()
     print(decode_cover_text(cover_text))

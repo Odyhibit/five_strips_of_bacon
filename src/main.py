@@ -1,17 +1,20 @@
-from customtkinter import *
-from PIL import ImageTk
+import pathlib
 
-import src.encode_five_strips_of_bacon as bacon
+from customtkinter import *
+from PIL import ImageTk, Image
+
+import src.bacon as bacon
 import src.decode_five_strips_of_bacon as decode_bacon
 
 
 class MainWindow:
 
     def __init__(self, root):
-
+        current_dir = pathlib.Path(__file__).parent.resolve()
         tabcontrol = CTkTabview(root)
         tabcontrol.pack(expand=True)
-        icon_path = ImageTk.PhotoImage(file="five-strips-of-bacon/src/resources/bacon_five.png")
+        image = Image.open(os.path.join(current_dir, "bacon_five.png"))
+        icon_path = ImageTk.PhotoImage(image)
         root.wm_iconbitmap()
         root.iconphoto(False, icon_path)
         root.title("Five Strips of Bacon")
@@ -109,7 +112,9 @@ class MainWindow:
         cover_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
         cipher_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cipher Text")
         cipher_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=60, width=400)
-        calc_button = CTkButton(master=tabcontrol.tab("Encode"), text="Calculate cipher", command=calculate_cipher,
+        calc_button = CTkButton(master=tabcontrol.tab("Encode"),
+                                text="Calculate cipher",
+                                command=calculate_cipher,
                                 state="disabled")
         clip_button = CTkButton(master=tabcontrol.tab("Encode"), text="Copy cipher", command=copy_to_clipboard)
 
@@ -124,14 +129,14 @@ class MainWindow:
         cipher_text.grid(column=0, row=6, columnspan=2, padx=pad_x, pady=pad_y)
         calc_button.grid(column=0, row=7, padx=pad_x, pady=pad_y)
         clip_button.grid(column=1, row=7, padx=pad_x, pady=pad_y)
-        CTkRadioButton(tabcontrol.tab("Encode"), text="Discord", variable=output_type, value="Discord").grid(column=0,
-                                                                                                             row=8,
-                                                                                                             columnspan=2,
-                                                                                                             padx=5)
-        CTkRadioButton(tabcontrol.tab("Encode"), text="GitHub", variable=output_type, value="GitHub").grid(column=0,
-                                                                                                           row=9,
-                                                                                                           columnspan=2,
-                                                                                                           padx=5)
+        CTkRadioButton(tabcontrol.tab("Encode"),
+                       text="Discord",
+                       variable=output_type,
+                       value="Discord").grid(column=0, row=8, columnspan=2, padx=5)
+        CTkRadioButton(tabcontrol.tab("Encode"),
+                       text="GitHub",
+                       variable=output_type,
+                       value="GitHub").grid(column=0, row=9, columnspan=2, padx=5)
 
         hidden_text.bind("<FocusOut>", convert_hidden)
         cover_text.bind("<KeyRelease>", check_length)

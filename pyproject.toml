@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "five-strips-of-bacon"
-version = "0.1.4"
+version = "0.1.6"
 description = "Encode/Decode messages using five simultaneous bacon ciphers."
 authors = ["Odyhibit <josh.2990@gmail.com>"]
 readme = "README.md"
@@ -8,7 +8,7 @@ packages = [
     { include = "src/main.py"},
     { include = "src/bacon.py"},
     { include = "src/decode_five_strips_of_bacon.py"},
-    { include = "bacon_five.png", from="src/resources"},
+    { include = "src/bacon_five.png"},
 ]
 
 
