@@ -1,9 +1,16 @@
 # Five slices of bacon
+## Installation
+
+```
+pip install five-strips-of-bacon
+```
+## About
+
 Is it steganography if it's obvious?
 
 no.
 
-Bacon's cipher was designed to hide text inside other text, or objects in photos.
+Bacon's cipher was designed to hide text inside other text, photos, etc.
 
 Each character in the hidden text requires 5 bits of information. For example it could be if a character is bold, or not. Maybe wheather people in a photo have their head turned to the side or not.
 So why not "hide" 5 bits of information in a single character? Who would even notice?
