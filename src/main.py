@@ -1,7 +1,7 @@
 from customtkinter import *
 from PIL import ImageTk
 
-import src.bacon as bacon
+import src.encode_five_strips_of_bacon as bacon
 import src.decode_five_strips_of_bacon as decode_bacon
 
 
