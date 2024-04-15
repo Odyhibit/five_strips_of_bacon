@@ -11,13 +11,15 @@ class MainWindow:
 
     def __init__(self, root):
         current_dir = pathlib.Path(__file__).parent.resolve()
-        tabcontrol = CTkTabview(root)
-        tabcontrol.pack(expand=True)
+
         image = Image.open(os.path.join(current_dir, "bacon_five.png"))
         icon_path = ImageTk.PhotoImage(image)
         root.wm_iconbitmap()
         root.iconphoto(False, icon_path)
         root.title("Five Strips of Bacon")
+
+        tabcontrol = CTkTabview(root)
+        tabcontrol.pack(expand=True)
         tabcontrol.pack(padx=20, pady=20)
         tabcontrol.add("Encode")
         tabcontrol.add("Decode")
