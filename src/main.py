@@ -1,3 +1,4 @@
+"""This is the main GUI file."""
 import pathlib
 
 from customtkinter import *
@@ -25,6 +26,9 @@ class MainWindow:
         tabcontrol.add("Decode")
 
         def convert_hidden(e):
+            """This converts the secret text to show the limits of the bacon cipher.
+            Only uppercase. J -> I and V -> U.
+            """
             temp = hidden_text.get("1.0", "end-1c").upper()
             hidden_text.delete("1.0", "end")
             new_text = ""
@@ -39,6 +43,12 @@ class MainWindow:
             check_length(e)
 
         def check_length(e):
+            """Check to see if there are enough cover text characters to hide the plaintext.
+            If there is then we enable the calc_button, if not we disable it.
+
+            :param e: the event that triggered this(not used)
+            :return: nothing is returned
+            """
             cover_str = cover_text.get("1.0", "end-1c")
             hidden_str = hidden_text.get("1.0", "end-1c").replace(" ", "")
             cover = 0
@@ -52,17 +62,25 @@ class MainWindow:
                 calc_button.configure(state="disabled", text="Need more cover text")
 
         def calculate_cipher():
+            """This function does the heavy lifting for the encoding.
+            This should be moved into the encode_five_strips_of_bacon.py file.
+
+            :return: returns nothing
+            """
             # BISCUT Bold Italic Strikethrough Capital Underline - Text
             word_joiner = "\u2060"
             no_break_space = "\ufeff"
+
             hidden_str = hidden_text.get("1.0", "end-1c")
             secret_bin_str = bacon.get_bit_mask(hidden_text.get("1.0", "end -1c").lower(),
                                                 bacon.original_bacon_dictionary)
             cover_text_str = cover_text.get("1.0", "end -1c")
             output_format = output_type.get()
+
             output, this_letter = "", ""
             cover_index, hidden_index, bin_str_index = 0, 0, 0
             need_to_end_code = True
+
             while cover_index < len(cover_text_str):
                 if hidden_index < len(hidden_str):
                     if cover_text_str[cover_index].isalpha():
@@ -72,8 +90,8 @@ class MainWindow:
                             continue
                         else:
                             output += bacon.add_bacon(cover_text_str[cover_index],
-                                                      secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
-                                                      output_format)
+                                        secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
+                                        output_format)
                             hidden_index += 1
                             bin_str_index += 1
                     if cover_text_str[cover_index] == " ":
@@ -89,17 +107,20 @@ class MainWindow:
             cipher_text.insert("1.0", output)
 
         def decode_cipher():
+            """decode the ciphered text, put it in the plain_text textbox """
             covered_text = ciphered_text.get("1.0", "end -1c")
             plain_text = decode_bacon.decode_cover_text(covered_text)
             plain_text_text.delete("1.0", "end")
             plain_text_text.insert("1.0", plain_text)
 
         def paste_cipher():
+            """Get the clipboard contents paste it into ciphered_text textbox"""
             covered_text = root.clipboard_get()
             ciphered_text.delete("1.0", "end")
             ciphered_text.insert("1.0", covered_text)
 
         def copy_to_clipboard():
+            """copy the cipher_text textbox to the clipboard"""
             field_value = cipher_text.get("1.0", 'end-1c')
             root.clipboard_clear()
             root.clipboard_append(field_value)
@@ -108,7 +129,8 @@ class MainWindow:
         output_type = StringVar(root, "Discord")
 
         hidden_label = CTkLabel(master=tabcontrol.tab("Encode"),
-                                text="Hidden Text - alphabet, and spaces only (I/J and U/V are combined)")
+                                text="Hidden Text - alphabet, "
+                                     "and spaces only (I/J and U/V are combined)")
         hidden_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
         cover_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cover Text")
         cover_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
@@ -118,7 +140,8 @@ class MainWindow:
                                 text="Calculate cipher",
                                 command=calculate_cipher,
                                 state="disabled")
-        clip_button = CTkButton(master=tabcontrol.tab("Encode"), text="Copy cipher", command=copy_to_clipboard)
+        clip_button = CTkButton(master=tabcontrol.tab("Encode"), text="Copy cipher",
+                                command=copy_to_clipboard)
 
         pad_x = 20
         pad_y = (0, 20)
@@ -148,8 +171,10 @@ class MainWindow:
         ciphered_text = CTkTextbox(master=tabcontrol.tab("Decode"), height=60, width=400)
         plain_text_label = CTkLabel(master=tabcontrol.tab("Decode"), text="recovered message")
         plain_text_text = CTkTextbox(master=tabcontrol.tab("Decode"), height=20, width=400)
-        decode_button = CTkButton(master=tabcontrol.tab("Decode"), text="Decode cipher", command=decode_cipher)
-        paste_button = CTkButton(master=tabcontrol.tab("Decode"), text="Paste", command=paste_cipher)
+        decode_button = CTkButton(master=tabcontrol.tab("Decode"), text="Decode cipher",
+                                  command=decode_cipher)
+        paste_button = CTkButton(master=tabcontrol.tab("Decode"), text="Paste",
+                                 command=paste_cipher)
 
         ciphered_label.grid(column=0, row=0, columnspan=2, padx=pad_x, pady=pad_y)
         ciphered_text.grid(column=0, row=1, columnspan=2, padx=pad_x, pady=pad_y)
@@ -161,6 +186,7 @@ class MainWindow:
 
 
 def main():
+    """Create the root window, and start the mainloop."""
     root = CTk()
     MainWindow(root)
     root.mainloop()

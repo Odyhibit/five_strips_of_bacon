@@ -1,3 +1,4 @@
+"""Module for encoding 5 bacon ciphers in markdown"""
 original_bacon_dictionary = {"a": "00000",
                              "b": "00001",
                              "c": "00010",
@@ -33,6 +34,13 @@ github_suffix = ["**", "*", "~~", "", "</ins>"]
 
 # create a bit_mask for the hidden_text
 def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
+    """
+
+    :param hide_me: this is the original plaintext
+    :param dictionary_choice: this provides a way to use alternative encodings, currently
+    only the original_bacon_dictionary is provided.
+    :return: binary string from the original_bacon_dictionary concatenated together
+    """
     mask = ""
     for char in hide_me:
         if char in dictionary_choice:
