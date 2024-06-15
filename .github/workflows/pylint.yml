@@ -22,7 +22,3 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
-    - uses: Silleellie/pylint-github-action@v2
-      with:
-        lint-path: src
-        python-version: ${{ matrix.python-version }}
