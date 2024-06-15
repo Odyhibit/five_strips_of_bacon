@@ -59,7 +59,6 @@ class MainWindow:
             for letter in cover_str:
                 if letter.isalpha():
                     cover += 1
-            # print("cover:", cover, "len(hidden):", len(hidden_str))
             if cover >= len(hidden_str):
                 calc_button.configure(state="normal", text="Calculate cipher")
             else:
@@ -68,10 +67,11 @@ class MainWindow:
         def calculate_cipher():
             """This function does the heavy lifting for the encoding.
             This should be moved into the encode_five_strips_of_bacon.py file.
+            BISCUT Bold Italic Strikethrough Capital Underline - Text
 
             :return: returns nothing
             """
-            # BISCUT Bold Italic Strikethrough Capital Underline - Text
+
             word_joiner = "\u2060"
             no_break_space = "\ufeff"
 
