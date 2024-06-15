@@ -1,7 +1,8 @@
 """This is the main GUI file."""
 import pathlib
 
-from customtkinter import *
+from customtkinter import CTkLabel, CTkTextbox, CTkButton, CTkRadioButton, CTkTabview,\
+    os, StringVar, CTk
 from PIL import ImageTk, Image
 
 import src.encode_five_strips_of_bacon as bacon
@@ -9,6 +10,7 @@ import src.decode_five_strips_of_bacon as decode_bacon
 
 
 class MainWindow:
+    """The main window"""
 
     def __init__(self, root):
         current_dir = pathlib.Path(__file__).parent.resolve()
@@ -25,7 +27,7 @@ class MainWindow:
         tabcontrol.add("Encode")
         tabcontrol.add("Decode")
 
-        def convert_hidden(e):
+        def convert_hidden():
             """This converts the secret text to show the limits of the bacon cipher.
             Only uppercase. J -> I and V -> U.
             """
@@ -40,13 +42,12 @@ class MainWindow:
             new_text = new_text.replace("J", "I")
             new_text = new_text.replace("V", "U")
             hidden_text.insert("1.0", new_text)
-            check_length(e)
+            check_length()
 
-        def check_length(e):
+        def check_length():
             """Check to see if there are enough cover text characters to hide the plaintext.
             If there is then we enable the calc_button, if not we disable it.
 
-            :param e: the event that triggered this(not used)
             :return: nothing is returned
             """
             cover_str = cover_text.get("1.0", "end-1c")
@@ -77,7 +78,7 @@ class MainWindow:
             cover_text_str = cover_text.get("1.0", "end -1c")
             output_format = output_type.get()
 
-            output, this_letter = "", ""
+            output = ""
             cover_index, hidden_index, bin_str_index = 0, 0, 0
             need_to_end_code = True
 
@@ -87,11 +88,10 @@ class MainWindow:
                         if hidden_str[hidden_index] == " ":
                             output += word_joiner
                             hidden_index += 1
-                            continue
                         else:
                             output += bacon.add_bacon(cover_text_str[cover_index],
-                                        secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
-                                        output_format)
+                                                      secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
+                                                      output_format)
                             hidden_index += 1
                             bin_str_index += 1
                     if cover_text_str[cover_index] == " ":
