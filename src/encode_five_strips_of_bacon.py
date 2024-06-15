@@ -49,6 +49,13 @@ def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
 
 
 def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
+    """Add appropriate markdown prefix, and suffix
+
+    :param letter: one character of the covertext
+    :param bit_mask: the binary string representing one hidden character
+    :param output_format: which set of prefix/suffix to use
+    :return: string  prefix + cover character + suffix + zero width character
+    """
     zero_width_space = "\u200B"
     prefix, suffix = "", ""
     prefix_list, suffix_list = [], []
@@ -67,4 +74,3 @@ def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
     else:
         this_letter = str(letter).lower()
     return prefix + this_letter + suffix + zero_width_space
-
