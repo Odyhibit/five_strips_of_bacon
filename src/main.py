@@ -9,10 +9,13 @@ import src.encode_five_strips_of_bacon as bacon
 import src.decode_five_strips_of_bacon as decode_bacon
 
 
-class MainWindow:  # pylint: disable=too-few-public-methods
+class MainWindow:
+    # pylint: disable=too-few-public-methods
+    # pylint: disable=too-many-locals
+    # pylint: disable=too-many-statements
     """The main window"""
 
-    def __init__(self, root):  # pylint: disable-msg=too-many-locals
+    def __init__(self, root):
         current_dir = pathlib.Path(__file__).parent.resolve()
 
         image = Image.open(os.path.join(current_dir, "bacon_five.png"))
