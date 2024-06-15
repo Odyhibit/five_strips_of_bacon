@@ -9,7 +9,7 @@ import src.encode_five_strips_of_bacon as bacon
 import src.decode_five_strips_of_bacon as decode_bacon
 
 
-class MainWindow:
+class MainWindow:  # pylint: disable=too-few-public-methods
     """The main window"""
 
     def __init__(self, root):
