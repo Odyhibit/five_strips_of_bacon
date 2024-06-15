@@ -90,8 +90,8 @@ class MainWindow:  # pylint: disable=too-few-public-methods
                             hidden_index += 1
                         else:
                             output += bacon.add_bacon(cover_text_str[cover_index],
-                                                      secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
-                                                      output_format)
+                                        secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
+                                        output_format)
                             hidden_index += 1
                             bin_str_index += 1
                     if cover_text_str[cover_index] == " ":
