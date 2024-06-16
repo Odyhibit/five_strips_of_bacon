@@ -1,4 +1,3 @@
-![pylint]()
 # Five strips of bacon
 ## Installation
 
