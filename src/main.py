@@ -30,7 +30,8 @@ class MainWindow:
         tabcontrol.add("Encode")
         tabcontrol.add("Decode")
 
-        def convert_hidden(self):
+
+        def convert_hidden(e):
             """This converts the secret text to show the limits of the bacon cipher.
             Only uppercase. J -> I and V -> U.
             """
@@ -45,14 +46,23 @@ class MainWindow:
             new_text = new_text.replace("J", "I")
             new_text = new_text.replace("V", "U")
             hidden_text.insert("1.0", new_text)
-            check_length()
+            check_length(e)
 
-        def check_length(self):
+
+        def tab_to_hidden_text(e):
+            if e.keycode == 9:
+                cover_text.focus_set()
+
+
+        def check_length(e):
             """Check to see if there are enough cover text characters to hide the plaintext.
             If there is then we enable the calc_button, if not we disable it.
 
             :return: nothing is returned
             """
+
+            if e.keycode == 9:
+                calc_button.focus_set()
             cover_str = cover_text.get("1.0", "end-1c")
             hidden_str = hidden_text.get("1.0", "end-1c").replace(" ", "")
             cover = 0
@@ -137,6 +147,7 @@ class MainWindow:
                        value="GitHub").grid(column=0, row=9, columnspan=2, padx=5)
 
         hidden_text.bind("<FocusOut>", convert_hidden)
+        hidden_text.bind("<KeyRelease>", tab_to_hidden_text)
         cover_text.bind("<KeyRelease>", check_length)
 
         # DECODING
