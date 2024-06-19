@@ -1,11 +1,11 @@
 """This is the main GUI file."""
 import pathlib
 
-from customtkinter import CTkLabel, CTkTextbox, CTkButton, CTkRadioButton, CTkTabview,\
+from customtkinter import CTkLabel, CTkTextbox, CTkButton, CTkRadioButton, CTkTabview, \
     os, StringVar, CTk
 from PIL import ImageTk, Image
 
-import src.encode_five_strips_of_bacon as bacon
+import src.encode_five_strips_of_bacon as encode_bacon
 import src.decode_five_strips_of_bacon as decode_bacon
 
 
@@ -30,7 +30,7 @@ class MainWindow:
         tabcontrol.add("Encode")
         tabcontrol.add("Decode")
 
-        def convert_hidden():
+        def convert_hidden(self):
             """This converts the secret text to show the limits of the bacon cipher.
             Only uppercase. J -> I and V -> U.
             """
@@ -47,7 +47,7 @@ class MainWindow:
             hidden_text.insert("1.0", new_text)
             check_length()
 
-        def check_length():
+        def check_length(self):
             """Check to see if there are enough cover text characters to hide the plaintext.
             If there is then we enable the calc_button, if not we disable it.
 
@@ -66,46 +66,16 @@ class MainWindow:
 
         def calculate_cipher():
             """This function does the heavy lifting for the encoding.
-            This should be moved into the encode_five_strips_of_bacon.py file.
             BISCUT Bold Italic Strikethrough Capital Underline - Text
 
             :return: returns nothing
             """
 
-            word_joiner = "\u2060"
-            no_break_space = "\ufeff"
-
             hidden_str = hidden_text.get("1.0", "end-1c")
-            secret_bin_str = bacon.get_bit_mask(hidden_text.get("1.0", "end -1c").lower(),
-                                                bacon.original_bacon_dictionary)
             cover_text_str = cover_text.get("1.0", "end -1c")
             output_format = output_type.get()
 
-            output = ""
-            cover_index, hidden_index, bin_str_index = 0, 0, 0
-            need_to_end_code = True
-
-            while cover_index < len(cover_text_str):
-                if hidden_index < len(hidden_str):
-                    if cover_text_str[cover_index].isalpha():
-                        if hidden_str[hidden_index] == " ":
-                            output += word_joiner
-                            hidden_index += 1
-                        else:
-                            output += bacon.add_bacon(cover_text_str[cover_index],
-                                        secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
-                                        output_format)
-                            hidden_index += 1
-                            bin_str_index += 1
-                    if cover_text_str[cover_index] == " ":
-                        output += " "
-                else:
-                    if need_to_end_code:
-                        output += no_break_space
-                        need_to_end_code = False
-                    output += cover_text_str[cover_index]
-                cover_index += 1
-
+            output = encode_bacon.encode_cover_text(hidden_str, cover_text_str, output_format)
             cipher_text.delete("1.0", "end")
             cipher_text.insert("1.0", output)
 

@@ -74,3 +74,44 @@ def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
     else:
         this_letter = str(letter).lower()
     return prefix + this_letter + suffix + zero_width_space
+
+
+def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) -> str:
+    """This function does the heavy lifting for the encoding.
+               This should be moved into the encode_five_strips_of_bacon.py file.
+               BISCUT Bold Italic Strikethrough Capital Underline - Text
+
+               :return: returns nothing
+               """
+
+    word_joiner = "\u2060"
+    no_break_space = "\ufeff"
+
+    secret_bin_str = get_bit_mask(hidden_str.lower(), original_bacon_dictionary)
+
+    output = ""
+    cover_index, hidden_index, bin_str_index = 0, 0, 0
+    need_to_end_code = True
+
+    while cover_index < len(cover_text_str):
+        if hidden_index < len(hidden_str):
+            if cover_text_str[cover_index].isalpha():
+                if hidden_str[hidden_index] == " ":
+                    output += word_joiner
+                    hidden_index += 1
+                else:
+                    output += add_bacon(cover_text_str[cover_index],
+                                        secret_bin_str[bin_str_index * 5: bin_str_index * 5 + 5],
+                                        output_format)
+                    hidden_index += 1
+                    bin_str_index += 1
+            if cover_text_str[cover_index] == " ":
+                output += " "
+        else:
+            if need_to_end_code:
+                output += no_break_space
+                need_to_end_code = False
+            output += cover_text_str[cover_index]
+        cover_index += 1
+
+    return output
