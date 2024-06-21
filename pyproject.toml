@@ -16,8 +16,8 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-customtkinter = "^5.2.2"
-pillow = "^10.3.0"
+customtkinter = "^5.2"
+pillow = "^9"
 
 [tool.poetry.scripts]
 five-strips-of-bacon = "src.main:main"
