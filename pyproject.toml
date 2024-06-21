@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "five-strips-of-bacon"
-version = "1.0.2"
+version = "1.0.3"
 description = "Encode/Decode messages using five simultaneous bacon ciphers."
 authors = ["Odyhibit <josh.2990@gmail.com>"]
 readme = "README.md"
