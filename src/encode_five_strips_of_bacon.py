@@ -78,7 +78,6 @@ def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
 
 def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) -> str:
     """This function does the heavy lifting for the encoding.
-               This should be moved into the encode_five_strips_of_bacon.py file.
                BISCUT Bold Italic Strikethrough Capital Underline - Text
 
                :return: returns nothing
