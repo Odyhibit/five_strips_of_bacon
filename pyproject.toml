@@ -9,6 +9,7 @@ packages = [
     { include = "src/encode_five_strips_of_bacon.py"},
     { include = "src/decode_five_strips_of_bacon.py"},
     { include = "src/bacon_five.png"},
+    { include = "README.md"},
 ]
 
 

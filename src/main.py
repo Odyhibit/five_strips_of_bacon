@@ -30,7 +30,6 @@ class MainWindow:
         tabcontrol.add("Encode")
         tabcontrol.add("Decode")
 
-
         def convert_hidden(e):
             """This converts the secret text to show the limits of the bacon cipher.
             Only uppercase. J -> I and V -> U.
@@ -48,11 +47,9 @@ class MainWindow:
             hidden_text.insert("1.0", new_text)
             check_length(e)
 
-
         def tab_to_hidden_text(e):
             if e.keycode == 9:
                 cover_text.focus_set()
-
 
         def check_length(e):
             """Check to see if there are enough cover text characters to hide the plaintext.
@@ -64,12 +61,17 @@ class MainWindow:
             if e.keycode == 9:
                 calc_button.focus_set()
             cover_str = cover_text.get("1.0", "end-1c")
-            hidden_str = hidden_text.get("1.0", "end-1c").replace(" ", "")
-            cover = 0
+            hidden_str = hidden_text.get("1.0", "end-1c")
+
+            cover_len, hidden_len = 0, 0
+            for letter in hidden_str:
+                if letter.isalpha() or letter == " ":
+                    hidden_len += 1
             for letter in cover_str:
                 if letter.isalpha():
-                    cover += 1
-            if cover >= len(hidden_str):
+                    cover_len += 1
+
+            if cover_len >= hidden_len:
                 calc_button.configure(state="normal", text="Calculate cipher")
             else:
                 calc_button.configure(state="disabled", text="Need more cover text")
