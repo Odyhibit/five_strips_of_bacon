@@ -63,12 +63,14 @@ class MainWindow:
             cover_str = cover_text.get("1.0", "end-1c")
             hidden_str = hidden_text.get("1.0", "end-1c")
 
-            if count_alpha(cover_str) >= count_alpha(hidden_str):
+            cover_len = count_alpha(cover_str)
+            hidden_len = count_alpha(hidden_str)
+            if cover_len >= hidden_len:
                 calc_button.configure(state="normal", text="Calculate cipher")
-                cover_label.configure(text=f"Cover Text - long enough")
+                cover_label.configure(text="Cover Text - long enough")
             else:
                 calc_button.configure(state="disabled", text="Need more cover text")
-                cover_label.configure(text=f"Cover Text - {count_alpha(hidden_str) - count_alpha(cover_str)} left")
+                cover_label.configure(text=f"Cover Text - {hidden_len - cover_len} left")
 
         def count_alpha(text: str) -> int:
             """count the number of alphabet characters in a bit of text"""
