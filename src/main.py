@@ -63,18 +63,19 @@ class MainWindow:
             cover_str = cover_text.get("1.0", "end-1c")
             hidden_str = hidden_text.get("1.0", "end-1c")
 
-            cover_len, hidden_len = 0, 0
-            for letter in hidden_str:
-                if letter.isalpha() or letter == " ":
-                    hidden_len += 1
-            for letter in cover_str:
-                if letter.isalpha():
-                    cover_len += 1
-
-            if cover_len >= hidden_len:
+            if count_alpha(cover_str) >= count_alpha(hidden_str):
                 calc_button.configure(state="normal", text="Calculate cipher")
+                cover_label.configure(text=f"Cover Text - long enough")
             else:
                 calc_button.configure(state="disabled", text="Need more cover text")
+                cover_label.configure(text=f"Cover Text - {count_alpha(hidden_str) - count_alpha(cover_str)} left")
+
+        def count_alpha(text: str) -> int:
+            count = 0
+            for letter in text:
+                if letter.isalpha():
+                    count += 1
+            return count
 
         def calculate_cipher():
             """This function does the heavy lifting for the encoding.

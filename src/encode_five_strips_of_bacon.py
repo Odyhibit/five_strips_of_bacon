@@ -104,13 +104,16 @@ def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) 
                                         output_format)
                     hidden_index += 1
                     bin_str_index += 1
-            if cover_text_str[cover_index] == " ":
+                    cover_index += 1
+            elif cover_text_str[cover_index] == " ":
                 output += " "
+                cover_index += 1
         else:
             if need_to_end_code:
                 output += no_break_space
                 need_to_end_code = False
             output += cover_text_str[cover_index]
-        cover_index += 1
+            cover_index += 1
+
 
     return output
