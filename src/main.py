@@ -71,6 +71,7 @@ class MainWindow:
                 cover_label.configure(text=f"Cover Text - {count_alpha(hidden_str) - count_alpha(cover_str)} left")
 
         def count_alpha(text: str) -> int:
+            """count the number of alphabet characters in a bit of text"""
             count = 0
             for letter in text:
                 if letter.isalpha():
