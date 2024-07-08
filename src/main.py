@@ -135,22 +135,26 @@ class MainWindow:
         pad_x = 20
         pad_y = (0, 20)
 
-        hidden_label.grid(column=0, row=1, columnspan=2, padx=pad_x)
-        hidden_text.grid(column=0, row=2, columnspan=2, padx=pad_x, pady=pad_y)
-        cover_label.grid(column=0, row=3, columnspan=2, padx=pad_x)
-        cover_text.grid(column=0, row=4, columnspan=2, padx=pad_x, pady=pad_y)
-        cipher_label.grid(column=0, row=5, columnspan=2, padx=pad_x)
-        cipher_text.grid(column=0, row=6, columnspan=2, padx=pad_x, pady=pad_y)
-        calc_button.grid(column=0, row=7, padx=pad_x, pady=pad_y)
-        clip_button.grid(column=1, row=7, padx=pad_x, pady=pad_y)
+        hidden_label.grid(column=0, row=1, columnspan=3, padx=pad_x)
+        hidden_text.grid(column=0, row=2, columnspan=3, padx=pad_x, pady=pad_y)
+        cover_label.grid(column=0, row=3, columnspan=3, padx=pad_x)
+        cover_text.grid(column=0, row=4, columnspan=3, padx=pad_x, pady=pad_y)
+        cipher_label.grid(column=0, row=5, columnspan=3, padx=pad_x)
+        cipher_text.grid(column=0, row=6, columnspan=3, padx=pad_x, pady=pad_y)
+        calc_button.grid(column=0, row=8, padx=pad_x, pady=pad_y)
+        clip_button.grid(column=2, row=8, padx=pad_x, pady=pad_y)
         CTkRadioButton(tabcontrol.tab("Encode"),
                        text="Discord",
                        variable=output_type,
-                       value="Discord").grid(column=0, row=8, columnspan=2, padx=5)
+                       value="Discord").grid(column=0, row=7, padx=5, pady=pad_y)
         CTkRadioButton(tabcontrol.tab("Encode"),
                        text="GitHub",
                        variable=output_type,
-                       value="GitHub").grid(column=0, row=9, columnspan=2, padx=5)
+                       value="GitHub").grid(column=1, row=7, padx=5, pady=pad_y)
+        CTkRadioButton(tabcontrol.tab("Encode"),
+                       text="Unicode",
+                       variable=output_type,
+                       value="Unicode").grid(column=2, row=7, padx=5, pady=pad_y)
 
         hidden_text.bind("<FocusOut>", convert_hidden)
         hidden_text.bind("<KeyRelease>", tab_to_hidden_text)

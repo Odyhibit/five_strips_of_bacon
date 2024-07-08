@@ -35,7 +35,6 @@ github_suffix = ["**", "*", "~~", "", "</ins>"]
 # create a bit_mask for the hidden_text
 def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
     """
-
     :param hide_me: this is the original plaintext
     :param dictionary_choice: this provides a way to use alternative encodings, currently
     only the original_bacon_dictionary is provided.
@@ -50,29 +49,57 @@ def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
 
 def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
     """Add appropriate markdown prefix, and suffix
-
     :param letter: one character of the covertext
     :param bit_mask: the binary string representing one hidden character
     :param output_format: which set of prefix/suffix to use
     :return: string  prefix + cover character + suffix + zero width character
+    bold_cap_offset = 119743
+    bold_small_offset = 119769
+    italic_cap_offset = 119795
+    italic_small_offset = 119821
     """
     zero_width_space = "\u200B"
+    this_letter = letter
     prefix, suffix = "", ""
     prefix_list, suffix_list = [], []
-    if output_format == "Discord":
-        prefix_list = discord_prefix
-        suffix_list = discord_suffix
-    if output_format == "GitHub":
-        prefix_list = github_prefix
-        suffix_list = github_suffix
-    for i in range(5):
-        if bit_mask[i] == "1":
-            prefix = prefix + prefix_list[i]
-            suffix = suffix_list[i] + suffix
-    if bit_mask[3] == "1":
-        this_letter = str(letter).upper()
+    letter = letter.upper()
+    letter_offset = ord(letter) - 65
+
+    if output_format == "Unicode" and letter.isalpha():
+        #  print(letter, bit_mask, bit_mask[0:2])
+        if bit_mask[0] == "1" and bit_mask[3] == "1":  # Bold and Capital
+            this_letter = chr(0x1d400 + letter_offset)
+        if bit_mask[0] == "1" and not bit_mask[3] == "1":  # Bold and small
+            this_letter = chr(0x1d41a + letter_offset)
+        if bit_mask[1] == "1" and bit_mask[3] == "1":  # Italic and Capital
+            this_letter = chr(0x1D434 + letter_offset)
+        if bit_mask[1] == "1" and not bit_mask[3] == "1":  # Italic and small
+            this_letter = chr(0x1d44e + letter_offset)
+            if letter_offset == 7:
+                this_letter = chr(0x210e)  # glyph is reserved, so use plank's constant
+        if bit_mask[0:2] == "00" and bit_mask[3] == "1":  # just capital
+            this_letter = letter.upper()
+        if bit_mask[2] == "1":  # Underline
+            this_letter += "\u0336"
+        if bit_mask[4] == "1":  # strikethrough
+            this_letter += "\u0332"
+
     else:
-        this_letter = str(letter).lower()
+        if output_format == "Discord":
+            prefix_list = ["**", "*", "~~", "", "__"]
+            suffix_list = ["**", "*", "~~", "", "__"]
+        if output_format == "GitHub":
+            prefix_list = ["**", "*", "~~", "", "<ins>"]
+            suffix_list = ["**", "*", "~~", "", "</ins>"]
+        for i in range(5):
+            if bit_mask[i] == "1":
+                prefix = prefix + prefix_list[i]
+                suffix = suffix_list[i] + suffix
+        if bit_mask[3] == "1":
+            this_letter = str(letter).upper()
+        else:
+            this_letter = str(letter).lower()
+    print(f"{letter} -> {this_letter} offset{letter_offset}")
     return prefix + this_letter + suffix + zero_width_space
 
 
@@ -80,7 +107,7 @@ def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) 
     """This function does the heavy lifting for the encoding.
                BISCUT Bold Italic Strikethrough Capital Underline - Text
 
-               :return: returns nothing
+               :return: cover text with modifiers
                """
 
     word_joiner = "\u2060"
@@ -106,6 +133,7 @@ def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) 
                     bin_str_index += 1
                     cover_index += 1
             elif cover_text_str[cover_index] == " ":
+                print(" and ' ' ")
                 output += " "
                 cover_index += 1
         else:
@@ -114,6 +142,5 @@ def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) 
                 need_to_end_code = False
             output += cover_text_str[cover_index]
             cover_index += 1
-
 
     return output
