@@ -66,7 +66,6 @@ def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
     letter_offset = ord(letter) - 65
 
     if output_format == "Unicode" and letter.isalpha():
-        #  print(letter, bit_mask, bit_mask[0:2])
         if bit_mask[0] == "1" and bit_mask[3] == "1":  # Bold and Capital
             this_letter = chr(0x1d400 + letter_offset)
         if bit_mask[0] == "1" and not bit_mask[3] == "1":  # Bold and small
@@ -99,7 +98,6 @@ def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
             this_letter = str(letter).upper()
         else:
             this_letter = str(letter).lower()
-    print(f"{letter} -> {this_letter} offset{letter_offset}")
     return prefix + this_letter + suffix + zero_width_space
 
 
@@ -112,9 +110,7 @@ def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) 
 
     word_joiner = "\u2060"
     no_break_space = "\ufeff"
-
     secret_bin_str = get_bit_mask(hidden_str.lower(), original_bacon_dictionary)
-
     output = ""
     cover_index, hidden_index, bin_str_index = 0, 0, 0
     need_to_end_code = True
@@ -133,7 +129,6 @@ def encode_cover_text(hidden_str: str, cover_text_str: str, output_format: str) 
                     bin_str_index += 1
                     cover_index += 1
             elif cover_text_str[cover_index] == " ":
-                print(" and ' ' ")
                 output += " "
                 cover_index += 1
         else:
