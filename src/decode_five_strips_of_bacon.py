@@ -34,6 +34,7 @@ def grab_clipboard() -> []:
     a.destroy()
     return cb
 
+
 def process_char(letter: str) -> str:
     """decodes the attributes of one letter, and returns a hidden character
     
@@ -42,33 +43,49 @@ def process_char(letter: str) -> str:
     """
     output = [0, 0, 0, 0, 0]
     if letter == " " or letter == "":
+        # print("skipping because of '' or ' '")
         return ""
     if letter[0] == " ":
         letter = letter[1:]
     elif letter[0] == "\u2060":
+        # print("removing +u2060")
         letter = letter[1:]
+
     if len(letter) > 0:
+
         if "\u0332" in letter:  # underline
+            # print("underline", end=" ")
             output[4] = 1
             letter.replace("\u0332", "")
         if "\u0336" in letter:  # strikethrough
+            # print("strikethrough", end=" ")
             output[2] = 1
             letter.replace("\u0336", "")
         letter_bytes = bytearray()
         letter_bytes.extend(letter.encode())
+        # print("letter:", letter,"letter0:", letter[0], letter_bytes, str(hex(ord(letter[0]))), len(letter), end=" ")
         if 0x1d400 <= ord(letter[0]) < 0x1D41A:  # Bold Capital
+            # print("bold capital", end=" ")
             output[0] = 1
             output[3] = 1
         if 0x1D41a <= ord(letter[0]) < 0x1D433:  # Bold small
+            # print("bold small", end=" ")
             output[0] = 1
         if 0x1D434 <= ord(letter[0]) < 0x1D44E:  # Italic Capital
+            # print("italic capital", end=" ")
             output[1] = 1
             output[3] = 1
         if 0x1D44E <= ord(letter[0]) < 0x1D467 or (ord(letter[0]) == 0x210e):  # Italic small
+            # print("italic small", end=" ")
             output[1] = 1
+
         if 0x40 < ord(letter[0]) < 0x5b:  # capital
+            # print(" capital~ ", end=" ")
             output[3] = 1
+        this_int = "".join(map(str, output))
+        # print(output, reverse_bacon_dictionary[this_int], end=" ")
     if len(letter) > 0 and ord(letter[0]) < 0xfeff:
+        # print("regular", end=" ")
         letter = letter.replace("/", "")
         prefix_size = len(letter) // 2
         prefix = letter[:prefix_size]
@@ -93,6 +110,7 @@ def process_char(letter: str) -> str:
         return f"{binary_string} is not a valid bacon encoding."
     if len(letter) == 1 and ord(letter) == 0xfeff:
         return_letter = " "
+    # print(return_letter)
     return return_letter
 
 
@@ -103,7 +121,7 @@ def process_char_unicode(letter: str) -> str:
     returns - string that is one decoded character
     """
     if letter == " " or letter == "":
-        print("skipping because of '' or ' '")
+        #  print("skipping because of '' or ' '")
         return ""
     if letter[0] in (" ", "\u2060"):
         letter = letter[1:]
@@ -115,36 +133,36 @@ def process_char_unicode(letter: str) -> str:
         return ""
 
     if "\u0332" in letter:  # underline
-        #print("underline", end=" ")
+        # print("underline", end=" ")
         output[4] = 1
         letter.replace("\u0332", "")
     if "\u0336" in letter:  # strikethrough
-        #print("strikethrough", end=" ")
+        # print("strikethrough", end=" ")
         output[2] = 1
         letter.replace("\u0336", "")
     letter_bytes = bytearray()
     letter_bytes.extend(letter.encode())
-    print("letter:", letter, "letter0:", letter[0], letter_bytes, str(hex(ord(letter[0]))), len(letter), end=" ")
+    # print("letter:", letter, "letter0:", letter[0], letter_bytes, str(hex(ord(letter[0]))), len(letter), end=" ")
     if 0x1d400 <= ord(letter[0]) < 0x1D41A:  # Bold Capital
-        #print("bold capital", end=" ")
+        # print("bold capital", end=" ")
         output[0] = 1
         output[3] = 1
     if 0x1D41a <= ord(letter[0]) < 0x1D433:  # Bold small
-        #print("bold small", end=" ")
+        # print("bold small", end=" ")
         output[0] = 1
     if 0x1D434 <= ord(letter[0]) < 0x1D44E:  # Italic Capital
-        #print("italic capital", end=" ")
+        # print("italic capital", end=" ")
         output[1] = 1
         output[3] = 1
     if 0x1D44E <= ord(letter[0]) < 0x1D467 or (ord(letter[0]) == 0x210e):  # Italic small
-        #print("italic small", end=" ")
+        # print("italic small", end=" ")
         output[1] = 1
 
     if 0x40 < ord(letter[0]) < 0x5b:  # capital
-        #print(" capital~ ", end=" ")
+        # print(" capital~ ", end=" ")
         output[3] = 1
     this_int = "".join(map(str, output))
-    print(letter, output, reverse_bacon_dictionary[this_int])
+    #  print(letter, output, reverse_bacon_dictionary[this_int])
 
     binary_string = "".join(map(str, output))
     if binary_string in reverse_bacon_dictionary:
@@ -153,8 +171,9 @@ def process_char_unicode(letter: str) -> str:
         return f"{binary_string} is not a valid bacon encoding."
     if len(letter) == 1 and ord(letter) == 0xfeff:
         return_letter = " "
-    #print(return_letter)
+    # print(return_letter)
     return return_letter
+
 
 def process_word(cover_text: str) -> str:
     """Split cover text on zero-width space. use process_letter() to decode each
@@ -189,6 +208,8 @@ def decode_cover_text(cover_text: str) -> str:
     if no_break_space in cover_text:
         cover_text = cover_text[:cover_text.find(no_break_space)]
     word_list = cover_text.split(word_joiner)
+    # wordlist_str = str("".join(i for i in word_list))
+    # print("Here is the wordlist ", word_list)
 
     for word in word_list:
         output += process_word(word) + " "
@@ -201,8 +222,8 @@ def main():
 
     :return: the original plaintext where i,j=i  u,v=u due to the bacon cipher limitations
     """
-    #cover_text = grab_clipboard()
-    #print(decode_cover_text(cover_text))
+    # cover_text = grab_clipboard()
+    # print(decode_cover_text(cover_text))
     ciphered_message = "S̶̲​𝑒​C̲​R̲​e̶​𝑡̶​ ⁠𝐒​e̶​𝐜̶̲​𝐑​⁠E̶̲​𝑡​S̲​ a̶​𝐫̲​⁠⁠E̶̲​ s̶​𝐞​c̶​﻿ret"
     letter_list = ciphered_message.split("​")
     message = ""
@@ -213,7 +234,7 @@ def main():
         message += process_char_unicode(letter)
 
     print(message)
-    #print(decode_cover_text(ciphered_message))
+    # print(decode_cover_text(ciphered_message))
 
 
 if __name__ == "__main__":

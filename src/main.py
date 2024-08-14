@@ -118,9 +118,10 @@ class MainWindow:
         output_type = StringVar(root, "Discord")
 
         hidden_label = CTkLabel(master=tabcontrol.tab("Encode"),
-                                text="Hidden Text - alphabet, "
-                                     "and spaces only (I/J and U/V are combined)")
+                                text="Hidden Text")
         hidden_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
+        hidden_lbl_info = CTkLabel(master=tabcontrol.tab("Encode"), text_color="grey",
+                                   text="    alphabet, and spaces only (I/J and U/V are combined)")
         cover_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cover Text")
         cover_text = CTkTextbox(master=tabcontrol.tab("Encode"), height=20, width=400)
         cipher_label = CTkLabel(master=tabcontrol.tab("Encode"), text="Cipher Text")
@@ -136,25 +137,26 @@ class MainWindow:
         pad_y = (0, 20)
 
         hidden_label.grid(column=0, row=1, columnspan=3, padx=pad_x)
-        hidden_text.grid(column=0, row=2, columnspan=3, padx=pad_x, pady=pad_y)
-        cover_label.grid(column=0, row=3, columnspan=3, padx=pad_x)
-        cover_text.grid(column=0, row=4, columnspan=3, padx=pad_x, pady=pad_y)
-        cipher_label.grid(column=0, row=5, columnspan=3, padx=pad_x)
-        cipher_text.grid(column=0, row=6, columnspan=3, padx=pad_x, pady=pad_y)
-        calc_button.grid(column=0, row=8, padx=pad_x, pady=pad_y)
-        clip_button.grid(column=2, row=8, padx=pad_x, pady=pad_y)
+        hidden_text.grid(column=0, row=2, columnspan=3, padx=pad_x, pady=(0, 0))
+        hidden_lbl_info.grid(column=0, row=3, columnspan=3, padx=(20, 20), pady=(0, 20), sticky="w")
+        cover_label.grid(column=0, row=4, columnspan=3, padx=pad_x)
+        cover_text.grid(column=0, row=5, columnspan=3, padx=pad_x, pady=pad_y)
+        cipher_label.grid(column=0, row=6, columnspan=3, padx=pad_x)
+        cipher_text.grid(column=0, row=7, columnspan=3, padx=pad_x, pady=pad_y)
+        calc_button.grid(column=0, row=9, padx=pad_x, pady=pad_y)
+        clip_button.grid(column=2, row=9, padx=pad_x, pady=pad_y)
         CTkRadioButton(tabcontrol.tab("Encode"),
                        text="Discord",
                        variable=output_type,
-                       value="Discord").grid(column=0, row=7, padx=5, pady=pad_y)
+                       value="Discord").grid(column=0, row=8, padx=5, pady=pad_y)
         CTkRadioButton(tabcontrol.tab("Encode"),
                        text="GitHub",
                        variable=output_type,
-                       value="GitHub").grid(column=1, row=7, padx=5, pady=pad_y)
+                       value="GitHub").grid(column=1, row=8, padx=5, pady=pad_y)
         CTkRadioButton(tabcontrol.tab("Encode"),
                        text="Unicode",
                        variable=output_type,
-                       value="Unicode").grid(column=2, row=7, padx=5, pady=pad_y)
+                       value="Unicode").grid(column=2, row=8, padx=5, pady=pad_y)
 
         hidden_text.bind("<FocusOut>", convert_hidden)
         hidden_text.bind("<KeyRelease>", tab_to_hidden_text)
