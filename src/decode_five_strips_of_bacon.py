@@ -189,4 +189,3 @@ def decode_cover_text(cover_text: str) -> str:
         output += process_word(word) + " "
 
     return output.upper()
-
