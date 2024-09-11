@@ -60,6 +60,7 @@ def process_char(letter: str) -> str:
         letter_bytes.extend(letter.encode())
 
         if 0x1d400 <= ord(letter[0]) < 0x1D41A:  # Bold Capital
+            output[0] = 1
             output[3] = 1
         if 0x1D41a <= ord(letter[0]) < 0x1D433:  # Bold small
             output[0] = 1
@@ -90,55 +91,6 @@ def process_char(letter: str) -> str:
             output[4] = 1
         if cover_character.isupper():
             output[3] = 1
-    binary_string = "".join(map(str, output))
-    if binary_string in reverse_bacon_dictionary:
-        return_letter = reverse_bacon_dictionary[binary_string]
-    else:
-        return f"{binary_string} is not a valid bacon encoding."
-    if len(letter) == 1 and ord(letter) == 0xfeff:
-        return_letter = " "
-    return return_letter
-
-
-def process_char_unicode(letter: str) -> str:
-    # pylint: disable=too-many-branches
-    """decodes the attributes of one letter, and returns a hidden character
-
-    letter - string containing modifier characters, and the cover character
-    returns - string that is one decoded character
-    """
-    if letter in (" ", ""):
-        return ""
-    if letter[0] in (" ", "\u2060"):
-        letter = letter[1:]
-
-    output = [0, 0, 0, 0, 0]
-    letter_bytes = bytearray()
-    letter_bytes.extend(letter.encode())
-    if len(letter) == 0:
-        return ""
-
-    if "\u0332" in letter:  # underline
-        output[4] = 1
-        letter.replace("\u0332", "")
-    if "\u0336" in letter:  # strikethrough
-        output[2] = 1
-        letter.replace("\u0336", "")
-    letter_bytes = bytearray()
-    letter_bytes.extend(letter.encode())
-    if 0x1d400 <= ord(letter[0]) < 0x1D41A:  # Bold Capital
-        output[3] = 1
-    if 0x1D41a <= ord(letter[0]) < 0x1D433:  # Bold small
-        output[0] = 1
-    if 0x1D434 <= ord(letter[0]) < 0x1D44E:  # Italic Capital
-        output[1] = 1
-        output[3] = 1
-    if 0x1D44E <= ord(letter[0]) < 0x1D467 or (ord(letter[0]) == 0x210e):  # Italic small
-        output[1] = 1
-
-    if 0x40 < ord(letter[0]) < 0x5b:  # capital
-        output[3] = 1
-
     binary_string = "".join(map(str, output))
     if binary_string in reverse_bacon_dictionary:
         return_letter = reverse_bacon_dictionary[binary_string]
