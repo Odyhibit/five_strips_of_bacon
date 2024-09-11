@@ -190,10 +190,3 @@ def decode_cover_text(cover_text: str) -> str:
 
     return output.upper()
 
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
