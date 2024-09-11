@@ -48,6 +48,7 @@ def get_bit_mask(hide_me: str, dictionary_choice: {}) -> str:
 
 
 def add_bacon(letter: str, bit_mask: str, output_format: str) -> str:
+    # pylint: disable=too-many-branches
     """Add appropriate markdown prefix, and suffix
     :param letter: one character of the covertext
     :param bit_mask: the binary string representing one hidden character

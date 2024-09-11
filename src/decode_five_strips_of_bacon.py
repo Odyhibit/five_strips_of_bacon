@@ -36,17 +36,16 @@ def grab_clipboard() -> []:
 
 
 def process_char(letter: str) -> str:
+    # pylint: disable=too-many-branches
     """decodes the attributes of one letter, and returns a hidden character
     
     letter - string containing modifier characters, and the cover character
     returns - string that is one decoded character
     """
     output = [0, 0, 0, 0, 0]
-    if letter == " " or letter == "":
+    if letter in (" ", ""):
         return ""
-    if letter[0] == " ":
-        letter = letter[1:]
-    elif letter[0] == "\u2060":
+    if letter[0] in (" ", "\u2060"):
         letter = letter[1:]
 
     if len(letter) > 0:
@@ -102,12 +101,13 @@ def process_char(letter: str) -> str:
 
 
 def process_char_unicode(letter: str) -> str:
+    # pylint: disable=too-many-branches
     """decodes the attributes of one letter, and returns a hidden character
 
     letter - string containing modifier characters, and the cover character
     returns - string that is one decoded character
     """
-    if letter == " " or letter == "":
+    if letter in (" ", ""):
         return ""
     if letter[0] in (" ", "\u2060"):
         letter = letter[1:]
@@ -193,7 +193,6 @@ def decode_cover_text(cover_text: str) -> str:
 
 def main():
     pass
-
 
 
 if __name__ == "__main__":
