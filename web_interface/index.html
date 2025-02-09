@@ -30,7 +30,7 @@
         body {
             font-family: 'Noto Sans', sans-serif;
         }
-        </style>
+    </style>
     <script>
         const baconDictionary = {
             "a": "00000", "b": "00001", "c": "00010", "d": "00011", "e": "00100",
@@ -51,8 +51,7 @@
         function hasCodepoint(str, codePoint) {
           let count = 0;
           for (const char of str) {
-
-            if (char.codePointAt(count) === codePoint) {
+            if (char === codePoint) {
               return true;
             }
             count++;
@@ -71,7 +70,7 @@
             const secretBinStr = getBitMask(hiddenText);
             let output = "";
             let binIndex = 0;
-
+            console.log("secret binarystring",secretBinStr);
             for (let i = 0; i < coverText.length; i++) {
                 if (binIndex < secretBinStr.length / 5) {
                     if (/[a-zA-Z]/.test(coverText[i])) {
@@ -126,18 +125,28 @@
             let output = "";
             const letters = coverText.split("\u200B");
             console.log("there are ", letters.length, "letters");
+            console.log(letters);
 
-            for (const char of letters) {
+            for (let char of letters) {
                 console.log("the letter is", char);
-                let bitMask = decodeLetter(char);
-                output += reverseBaconDictionary[bitMask] || "?";
-
+                //console.log("test this", char);
+                char = char.trimStart();          // remove spaces from cover text
+                //console.log("matches this", char);
+                if(hasCodepoint(char, "\u2060")) {
+                    output += " ";  // add space from hidden text
+                    char = char.slice(1); //then remove
+                }
+                if (char !== ""){
+                    let bitMask = decodeLetter(char);
+                    output += reverseBaconDictionary[bitMask] || "?";
+                    console.log(bitMask, " decoded to ", reverseBaconDictionary[bitMask]);
+                }
 
             }
 
             for (const char of letters) {
                 const codePoint = char.codePointAt(0);
-                console.log(`Character: ${char}, Code Point: ${codePoint}`);
+                //console.log(`Character: ${char}, Code Point: ${codePoint}`);
             }
 
             document.getElementById("result").innerText = output;
@@ -153,7 +162,7 @@
 
             let strikethrough = "\u0336";
             let underline = "\u0332";
-            console.log(letter);
+            //console.log(letter);
             let output = [0, 0, 0, 0, 0];
             let firstCodePoint = letter.codePointAt(0);
 
@@ -162,7 +171,7 @@
             if (hasCodepoint(letter,strikethrough)) output[2] = 1;    // Strikethrough
             if (isInRange(firstCodePoint, 0x1D400, 0x1D419) || isInRange(firstCodePoint, 0x1D434, 0x1D44D) || isInRange(firstCodePoint, 0x41, 0x5A)) output[3] = 1;    // Strikethrough
             if (hasCodepoint(letter,underline)) output[4] = 1;
-            console.log(output.join(""))
+            //console.log(output.join(""))
             return output.join("");
         }
     </script>
