@@ -1,4 +1,6 @@
 # Five strips of bacon
+You can try it out on a webpage https://odyhibit.github.io/five_strips_of_bacon/
+or intall the Python version.
 ## Installation
 
 To install you can use pip.( or pip3 depending on your system )
