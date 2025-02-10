@@ -1,0 +1,64 @@
+/* Import a clean Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+}
+
+h2 {
+    color: #0056b3;
+    font-weight: 600;
+}
+
+label {
+    font-weight: 500;
+    display: block;
+    margin-top: 10px;
+}
+
+input {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    background-color: #004099;
+}
+
+#message {
+    font-size: 1.1em;
+    color: #d9534f;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+#results {
+    font-weight: bold;
+    background-color: #fff;
+}
