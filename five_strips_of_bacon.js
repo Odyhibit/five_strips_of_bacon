@@ -33,7 +33,7 @@
 
         hiddenInput.addEventListener('input', function() {
             let hiddenText = hiddenInput.value;
-            hiddenInput.value = hiddenText.replace(/[^a-zA-Z\s]/g, '').toUpperCase();
+            hiddenInput.value = hiddenText.replace(/[^a-zA-Z\s]/g, '').replace("V","U").replace("J","I").toUpperCase();
         });
 
         coverInput.addEventListener('input', function(){
