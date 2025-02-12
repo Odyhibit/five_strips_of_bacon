@@ -56,8 +56,9 @@
 
         function hasCodepoint(str, codePoint) {
           let count = 0;
+
           for (const char of str) {
-            if (char === codePoint) {
+            if (char == codePoint) {
               return true;
             }
             count++;
@@ -199,7 +200,7 @@
 
 
             document.getElementById("hiddenText").value = output.toUpperCase();
-            document.getElementById("coverText").value = cover + cover_ending;
+            document.getElementById("coverText").value = cover + cover_ending.slice(1);
         }
 
         function decodeLetter(letter) {
@@ -238,14 +239,19 @@
             let output = "";
             let firstCodePoint = letter.trimStart().codePointAt(0);
             let possibleSpace = letter.codePointAt(0);
-            if (firstCodePoint == 0x2060)firstCodePoint = letter.trimStart().codePointAt(1);
+            if (firstCodePoint == 0x2060) {
+                firstCodePoint = letter.trimStart().codePointAt(1);
+                console.log("removed space", firstCodePoint);
+            }
+            //console.log(letter, firstCodePoint, 0x2060);
 
-            console.log(letter, firstCodePoint);
+            //console.log(letter, firstCodePoint);
             if(possibleSpace === 32) output = " ";
 
             if (isInRange(firstCodePoint, 0x1D400, 0x1D419)) output += String.fromCharCode(firstCodePoint - 0x1D400 + 97);  // Bold upper
             if (isInRange(firstCodePoint, 0x1D41A, 0x1D433)) output += String.fromCharCode(firstCodePoint - 0x1D41A + 97);  // Bold lower
 
+            if (firstCodePoint == 8462) output += "h";  // glyph is reserved, so use plank's constant
             if (isInRange(firstCodePoint, 0x1D434, 0x1D44C)) output += String.fromCharCode(firstCodePoint - 0x1D434 + 97);  // Itallic upper
             if (isInRange(firstCodePoint, 0x1D44E, 0x1D467)) output += String.fromCharCode(firstCodePoint - 0x1D44E + 97);  // Itallic lower
 
