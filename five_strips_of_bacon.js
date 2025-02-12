@@ -167,7 +167,7 @@
             let cover_ending = "";
             let keep_going = true;
             const letters = cipherText.split("\u200B");
-            console.log(letters)
+            // console.log(letters)
 
             for (let char of letters) {
                 if (hasCodepoint(char, "\ufeff")) {
@@ -195,7 +195,7 @@
                     cover += decodeCoverLetter(char);
                 }
 
-                console.log(`Character: ${char}, Code Point: ${codePoint}`);
+                // console.log(`Character: ${char}, Code Point: ${codePoint}`);
             }
 
 
@@ -241,7 +241,7 @@
             let possibleSpace = letter.codePointAt(0);
             if (firstCodePoint == 0x2060) {
                 firstCodePoint = letter.trimStart().codePointAt(1);
-                console.log("removed space", firstCodePoint);
+                // console.log("removed space", firstCodePoint);
             }
             //console.log(letter, firstCodePoint, 0x2060);
 
