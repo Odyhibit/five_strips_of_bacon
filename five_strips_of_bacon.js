@@ -142,7 +142,7 @@
                 else if (bitMask[1] === "1" && bitMask[3] === "1") modifiedLetter = String.fromCodePoint(parseInt('0x1D434', 16) + letterOffset);
                 //italic, lowercase
                 if (letterOffset == 7 && bitMask[1] === "1" && bitMask[3] !== "1"){
-                    this_letter = String.fromCodePoint(parseInt(0x210e, 16));  // glyph is reserved, so use plank's constant
+                    modifiedLetter = String.fromCodePoint(parseInt('0x210e', 16));  // glyph is reserved, so use plank's constant
                 }
                 else if (bitMask[1] === "1" && bitMask[3] !== "1") modifiedLetter = String.fromCodePoint(parseInt('0x1d44e', 16)  + letterOffset);
 
@@ -163,6 +163,7 @@
             const cipherText = document.getElementById("results").value;
             let output = "";
             let cover = "";
+            let cover_ending = "";
             let keep_going = true;
             const letters = cipherText.split("\u200B");
             console.log(letters)
@@ -182,6 +183,9 @@
                     let bitMask = decodeLetter(char);
                     output += reverseBaconDictionary[bitMask] || "?";
                 }
+                else {
+                    cover_ending += char;
+                }
             }
 
             for (const char of letters) {
@@ -193,8 +197,9 @@
                 console.log(`Character: ${char}, Code Point: ${codePoint}`);
             }
 
+
             document.getElementById("hiddenText").value = output.toUpperCase();
-            document.getElementById("coverText").value = cover;
+            document.getElementById("coverText").value = cover + cover_ending;
         }
 
         function decodeLetter(letter) {
@@ -212,7 +217,7 @@
             let firstCodePoint = letter.codePointAt(0);
 
             if (isInRange(firstCodePoint, 0x1D400, 0x1D433)) output[0] = 1;  // Bold
-            if (isInRange(firstCodePoint, 0x1D434, 0x1D467)) output[1] = 1;  // Itallic
+            if (firstCodePoint == 0x210E || isInRange(firstCodePoint, 0x1D44E, 0x1D467)) output[1] = 1;  // Itallic
             if (hasCodepoint(letter,strikethrough)) output[2] = 1;    // Strikethrough
             if (isInRange(firstCodePoint, 0x1D400, 0x1D419) || isInRange(firstCodePoint, 0x1D434, 0x1D44D) || isInRange(firstCodePoint, 0x41, 0x5A)) output[3] = 1;    // Strikethrough
             if (hasCodepoint(letter,underline)) output[4] = 1;
