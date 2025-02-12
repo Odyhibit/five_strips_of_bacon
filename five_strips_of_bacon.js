@@ -141,10 +141,11 @@
                 // italic, uppercase
                 else if (bitMask[1] === "1" && bitMask[3] === "1") modifiedLetter = String.fromCodePoint(parseInt('0x1D434', 16) + letterOffset);
                 //italic, lowercase
+                if (letterOffset == 7 && bitMask[1] === "1" && bitMask[3] !== "1"){
+                    this_letter = String.fromCodePoint(parseInt(0x210e, 16));  // glyph is reserved, so use plank's constant
+                }
                 else if (bitMask[1] === "1" && bitMask[3] !== "1") modifiedLetter = String.fromCodePoint(parseInt('0x1d44e', 16)  + letterOffset);
-                                if (letterOffset == 7){
-                                    this_letter = String.fromCodePoint(parseInt(0x210e, 16));  // glyph is reserved, so use plank's constant
-                                }
+
                 //regular uppercase
                 if (bitMask.substring(0, 2) === "00" && bitMask[3] === "1") modifiedLetter = letter.toUpperCase();
                 // strikethrough
