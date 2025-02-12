@@ -218,9 +218,9 @@
             let firstCodePoint = letter.codePointAt(0);
 
             if (isInRange(firstCodePoint, 0x1D400, 0x1D433)) output[0] = 1;  // Bold
-            if (firstCodePoint == 0x210E || isInRange(firstCodePoint, 0x1D44E, 0x1D467)) output[1] = 1;  // Itallic
+            if (firstCodePoint == 8462 || isInRange(firstCodePoint, 0x1D434, 0x1D467)) output[1] = 1;  // Itallic
             if (hasCodepoint(letter,strikethrough)) output[2] = 1;    // Strikethrough
-            if (isInRange(firstCodePoint, 0x1D400, 0x1D419) || isInRange(firstCodePoint, 0x1D434, 0x1D44D) || isInRange(firstCodePoint, 0x41, 0x5A)) output[3] = 1;    // Strikethrough
+            if (isInRange(firstCodePoint, 0x1D400, 0x1D419) || isInRange(firstCodePoint, 0x1D434, 0x1D44D) || isInRange(firstCodePoint, 0x41, 0x5A)) output[3] = 1;    // Capital
             if (hasCodepoint(letter,underline)) output[4] = 1;
             //console.log(output.join(""))
             return output.join("").toUpperCase();
